@@ -13,4 +13,4 @@ install:
   - pip install -e ${B3_REPO} --use-mirrors
 
 # command to run tests, e.g. python setup.py test
-script: nosetests --where=tests -a '!slow'
+script: nosetests --where=geolocation/tests
