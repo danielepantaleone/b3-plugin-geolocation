@@ -14,7 +14,7 @@ retrieve geolocation data using multiple data sources:
 
 To notify other plugins of client geolocation being completed, two events are being fired:
 
-* `EVT_CLIENT_GEOLOCATION_SUCCESS` : when the geolocation succeed
+* `EVT_CLIENT_GEOLOCATION_SUCCESS` : when the geolocation succeeds
 * `EVT_CLIENT_GEOLOCATION_FAILURE` : when the geolocation fails
 
 When the geolocation succeed a new attribute is added the the `b3.clients.Client` object: `location`. This attribute
@@ -32,7 +32,7 @@ will hold all the geolocation data the plugin could retrieve:
 * `client.location.zipcode` : the postal code
 
 *NOTE #1* : when `EVT_CLIENT_GEOLOCATION_FAILURE` is fired `client.location` is set to `None`  
-*NOTE #2* : when the plugin cannot retrieve a specific geolocation value, it's attribute is set to `None`
+*NOTE #2* : when the plugin cannot retrieve a specific geolocation value, its attribute is set to `None`
 
 Download
 --------
