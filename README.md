@@ -12,6 +12,8 @@ retrieve geolocation data using multiple data sources:
 * [Free GeoIP](https://freegeoip.net/)
 * [MaxMind GeoIP](http://dev.maxmind.com/geoip/legacy/install/country/)
 
+For plugin developers
+---------------------
 To notify other plugins of client geolocation being completed, two events are being fired:
 
 * `EVT_CLIENT_GEOLOCATION_SUCCESS` : when the geolocation succeeds
@@ -45,7 +47,7 @@ the plugin makes use of some new B3 core features which have been added in versi
 
 Installation
 ------------
-Simply drop the `geolocation` directory into `b3/extplugins`. B3 will automatically load the plugin if needed.
+Simply drop the `geolocation` directory into `b3/extplugins`. B3 will automatically load the plugin if needed. If you want you can load the plugin in b3 main configuration file but it's not mandatory.
 
 Changelog
 ---------
@@ -57,7 +59,6 @@ Changelog
 Support
 -------
 If you have found a bug or have a suggestion for this plugin, please report it on the [B3 forums][Support].
-
 
 [B3]: http://www.bigbrotherbot.net/ "BigBrotherBot (B3)"
 [Support]: http://forum.bigbrotherbot.net/ "Support topic on the B3 forums"
