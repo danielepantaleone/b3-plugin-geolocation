@@ -53,6 +53,7 @@ Changelog
 ---------
 ### 1.1 - 2015/03/17 - Fenix
  - now plugin reacts also on EVT_CLIENT_UPDATE: see http://bit.ly/1LmHpIJ
+ 
 ### 1.0 - 2015/03/12 - Fenix
 - initial release
 
