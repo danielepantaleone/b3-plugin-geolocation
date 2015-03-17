@@ -19,10 +19,11 @@
 # CHANGELOG
 #
 # 2015/03/12 - 1.0 - Fenix - initial version
+# 2015/03/17 - 1.1 - Fenix - now plugin reacts also on EVT_CLIENT_UPDATE: see http://bit.ly/1LmHpIJ
 #
 
 __author__ = 'Fenix'
-__version__ = '1.0'
+__version__ = '1.1'
 
 
 import b3
@@ -58,16 +59,25 @@ class GeolocationPlugin(b3.plugin.Plugin):
         Initialize plugin.
         """
         # register events needed
-        self.registerEvent(self.console.getEventID('EVT_CLIENT_AUTH'), self.onAuth)
+        self.registerEvent(self.console.getEventID('EVT_CLIENT_AUTH'), self.geolocate)
+        self.registerEvent(self.console.getEventID('EVT_CLIENT_UPDATE'), self.geolocate)
         # create our custom events so other plugins can react when clients are geolocated
         self.console.createEvent('EVT_CLIENT_GEOLOCATION_SUCCESS', 'Event client geolocation success')
         self.console.createEvent('EVT_CLIENT_GEOLOCATION_FAILURE', 'Event client geolocation failure')
 
-    def onAuth(self, event):
+    ####################################################################################################################
+    #                                                                                                                  #
+    #   EVENTS                                                                                                         #
+    #                                                                                                                  #
+    ####################################################################################################################
+
+    def geolocate(self, event):
         """
-        Handle EVT_CLIENT_AUTH
+        Handle EVT_CLIENT_AUTH and EVT_CLIENT_UPDATE.
         """
-        def _threaded_on_auth(client):
+        def _threaded_geolocate(client):
+
+            client.location = None
 
             for geotool in self._geolocators:
 
@@ -78,14 +88,16 @@ class GeolocationPlugin(b3.plugin.Plugin):
                     break # stop iterating if we collect valid data
                 except GeolocalizationError, e:
                     self.warning('could not retrieve geolocation data %s(@%s): %s' % (client.name, client.id, e))
-                    client.location = None
 
-            if client.location:
+            if client.location is not None:
                 self.console.queueEvent(self.console.getEvent('EVT_CLIENT_GEOLOCATION_SUCCESS', client=client))
             else:
                 self.console.queueEvent(self.console.getEvent('EVT_CLIENT_GEOLOCATION_FAILURE', client=client))
 
-        if not getattr(event.client, 'location', None):
-            t = Thread(target=_threaded_on_auth, args=(event.client, ))
+        # do not use hasattr or try except here: we'd better try to get geodata also when a previous attempt failed
+        # and we ended up with NoneType object in client.location (so we have an attribute but it's not useful).
+        # also make sure to launch geolocation only if we have a valid ip address.
+        if not getattr(event.client, 'location', None) and event.client.ip:
+            t = Thread(target=_threaded_geolocate, args=(event.client,))
             t.daemon = True  # won't prevent B3 from exiting
             t.start()

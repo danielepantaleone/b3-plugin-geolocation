@@ -24,7 +24,7 @@ import sys
 
 from mock import Mock
 from mock import ANY
-from mockito import when, unstub
+from mockito import unstub
 from nose.plugins.attrib import attr
 from b3.config import MainConfig
 from b3.config import CfgConfigParser
@@ -126,6 +126,26 @@ class GeolocationTestCase(unittest2.TestCase):
         self.mike.connects("1")
         time.sleep(2)  # give a chance to the thread to do its job, so retrieve data and create the event
         # THEN
+        self.assertGreaterEqual(len(self.p._geolocators), 1)
         self.assertIsNotNone(self.mike.location)
         self.assertIsNone(self.mike.location.isp)
+        print >> sys.stderr, "IP: %s : %r" % (self.mike.ip, self.mike.location)
+
+    @attr('slow')
+    def test_event_client_geolocation_success_maxmind_using_event_client_update(self):
+        # GIVEN
+        self.p._geolocators.pop(0)
+        self.p._geolocators.pop(0)
+        self.p._geolocators.pop(0)
+        self.mike.ip = ''
+        self.mike.connects("1")
+        # WHEN
+        self.mike.ip = '8.8.8.8'
+        self.mike.save(self.console)
+        time.sleep(4)  # give a chance to the thread to do its job, so retrieve data and create the event
+        # THEN
+        self.assertGreaterEqual(len(self.p._geolocators), 1)
+        self.assertEqual(True, hasattr(self.mike, 'location'))
+        self.assertIsNotNone(self.mike.location)
+        self.assertIsInstance(self.mike.location, Location)
         print >> sys.stderr, "IP: %s : %r" % (self.mike.ip, self.mike.location)
