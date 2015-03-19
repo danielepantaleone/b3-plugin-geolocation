@@ -20,10 +20,10 @@
 #
 # 2015/03/12 - 1.0 - Fenix - initial version
 # 2015/03/17 - 1.1 - Fenix - now plugin reacts also on EVT_CLIENT_UPDATE: see http://bit.ly/1LmHpIJ
-#
+# 2015/03/19 - 1.2 - Fenix - do not import everything from locators module: specify separate classes
 
 __author__ = 'Fenix'
-__version__ = '1.1'
+__version__ = '1.2'
 
 
 import b3
@@ -31,9 +31,12 @@ import b3.clients
 import b3.plugin
 import b3.events
 
-from .locators import *
-from .exceptions import GeolocalizationError
 from threading import Thread
+from .locators import IpApiLocator
+from .locators import TelizeLocator
+from .locators import FreeGeoIpLocator
+from .locators import MaxMindLocator
+from .exceptions import GeolocalizationError
 
 
 class GeolocationPlugin(b3.plugin.Plugin):
