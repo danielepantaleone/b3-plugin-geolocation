@@ -119,17 +119,14 @@ class GeoIP(object):
         """Convert country id to country code."""
         return GeoIP.__NAMES[v]
 
-    @staticmethod
     def country_code_by_addr(self, v):
         """Find country code by IP-address."""
         return GeoIP.id_to_country_code(self.id_by_addr(v))
 
-    @staticmethod
     def country_code3_by_addr(self, v):
         """Find country code3 by IP-address."""
         return GeoIP.id_to_country_code3(self.id_by_addr(v))
 
-    @staticmethod
     def country_name_by_addr(self, v):
         """Find country name by IP-address."""
         return GeoIP.id_to_country_name(self.id_by_addr(v))
