@@ -51,6 +51,10 @@ Simply drop the `geolocation` directory into `b3/extplugins`. B3 will automatica
 
 Changelog
 ---------
+### 1.2 - 2015/03/19 - Fenix
+ - minor code changes to respect PEP8 constraints
+ - import single locators classes instead of importing the whole module
+ 
 ### 1.1 - 2015/03/17 - Fenix
  - now plugin reacts also on EVT_CLIENT_UPDATE: see http://bit.ly/1LmHpIJ
  
@@ -65,3 +69,4 @@ If you have found a bug or have a suggestion for this plugin, please report it o
 [Support]: http://forum.bigbrotherbot.net/ "Support topic on the B3 forums"
 
 [![Build Status](https://travis-ci.org/danielepantaleone/b3-plugin-geolocation.svg?branch=master)](https://travis-ci.org/danielepantaleone/b3-plugin-geolocation)
+[![Code Health](https://landscape.io/github/danielepantaleone/b3-plugin-geolocation/master/landscape.svg?style=flat)](https://landscape.io/github/danielepantaleone/b3-plugin-geolocation/master)
