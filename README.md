@@ -51,6 +51,11 @@ Simply drop the `geolocation` directory into `b3/extplugins`. B3 will automatica
 
 Changelog
 ---------
+### 1.3 - 2015/03/20 - Fenix
+ - reworked external module imports
+ - renamed Locator class (and all inherited ones) into Geolocator: updated module name
+ - moved GeoIP.dat file into lib/geoip/db folder
+ 
 ### 1.2 - 2015/03/19 - Fenix
  - minor code changes to respect PEP8 constraints
  - import single locators classes instead of importing the whole module
