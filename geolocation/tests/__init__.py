@@ -23,14 +23,12 @@ import unittest2
 import sys
 
 from mock import Mock
-from mock import ANY
 from mockito import unstub
 from nose.plugins.attrib import attr
 from b3.config import MainConfig
 from b3.config import CfgConfigParser
 from geolocation import GeolocationPlugin
 from geolocation.location import Location
-from geolocation.exceptions import GeolocalizationError
 
 
 class logging_disabled(object):

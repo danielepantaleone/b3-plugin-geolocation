@@ -21,22 +21,24 @@
 # 2015/03/12 - 1.0 - Fenix - initial version
 # 2015/03/17 - 1.1 - Fenix - now plugin reacts also on EVT_CLIENT_UPDATE: see http://bit.ly/1LmHpIJ
 # 2015/03/19 - 1.2 - Fenix - do not import everything from locators module: specify separate classes
+# 2015/03/20 - 1.3 - Fenix - reworked external module imports
+#                          - renamed Locator class (and all inherited ones) into Geolocator: updated module name
+#                          - moved GeoIP.dat file into lib/geoip/db folder
 
 __author__ = 'Fenix'
-__version__ = '1.2'
-
+__version__ = '1.3'
 
 import b3
 import b3.clients
 import b3.plugin
 import b3.events
+import threading
 
-from threading import Thread
-from .locators import IpApiLocator
-from .locators import TelizeLocator
-from .locators import FreeGeoIpLocator
-from .locators import MaxMindLocator
 from .exceptions import GeolocalizationError
+from .geolocators import FreeGeoIpGeolocator
+from .geolocators import IpApiGeolocator
+from .geolocators import MaxMindGeolocator
+from .geolocators import TelizeGeolocator
 
 
 class GeolocationPlugin(b3.plugin.Plugin):
@@ -50,10 +52,10 @@ class GeolocationPlugin(b3.plugin.Plugin):
         b3.plugin.Plugin.__init__(self, console, config)
         # create geolocators instances
         self.info('creating geolocators object instances...')
-        self._geolocators = [IpApiLocator(), TelizeLocator(), FreeGeoIpLocator()]
+        self._geolocators = [IpApiGeolocator(), TelizeGeolocator(), FreeGeoIpGeolocator()]
         try:
             # append this one separately since db may be missing
-            self._geolocators.append(MaxMindLocator())
+            self._geolocators.append(MaxMindGeolocator())
         except IOError, e:
             self.debug('MaxMind geolocation not available: %s' % e)
 
@@ -101,6 +103,6 @@ class GeolocationPlugin(b3.plugin.Plugin):
         # and we ended up with NoneType object in client.location (so we have an attribute but it's not useful).
         # also make sure to launch geolocation only if we have a valid ip address.
         if not getattr(event.client, 'location', None) and event.client.ip:
-            t = Thread(target=_threaded_geolocate, args=(event.client,))
+            t = threading.Thread(target=_threaded_geolocate, args=(event.client,))
             t.daemon = True  # won't prevent B3 from exiting
             t.start()

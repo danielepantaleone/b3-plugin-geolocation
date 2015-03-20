@@ -28,7 +28,7 @@ from .lib.geoip import GeoIP
 from .location import Location
 
 
-class Locator(object):
+class Geolocator(object):
 
     _timeout = 5
 
@@ -71,7 +71,7 @@ class Locator(object):
         raise NotImplementedError
 
 
-class IpApiLocator(Locator):
+class IpApiGeolocator(Geolocator):
 
     _url = 'http://ip-api.com/json/%s'
 
@@ -94,7 +94,7 @@ class IpApiLocator(Locator):
                         zipcode=rt.get('zip', None))
 
 
-class TelizeLocator(Locator):
+class TelizeGeolocator(Geolocator):
 
     _url = 'http://www.telize.com/geoip/%s'
 
@@ -118,7 +118,7 @@ class TelizeLocator(Locator):
                         zipcode=rt.get('postal_code', None))
 
 
-class FreeGeoIpLocator(Locator):
+class FreeGeoIpGeolocator(Geolocator):
 
     _url = 'https://freegeoip.net/json/%s'
 
@@ -145,7 +145,7 @@ class FreeGeoIpLocator(Locator):
                         zipcode=rt.get('zip_code', None))
 
 
-class MaxMindLocator(Locator):
+class MaxMindGeolocator(Geolocator):
 
     _path = None
     _geoip = None
@@ -155,9 +155,9 @@ class MaxMindLocator(Locator):
         Object constructor.
         :raise IOError: if the database is not available
         """
-        super(MaxMindLocator, self).__init__(*args, **kwargs)
+        super(MaxMindGeolocator, self).__init__(*args, **kwargs)
         # prefer plugin relative path
-        self._path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'db', 'GeoIP.dat')
+        self._path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'lib', 'geoip', 'db', 'GeoIP.dat')
         if not os.path.isfile(self._path):
             # search system wide (using system path according to installation
             # instructions: http://dev.maxmind.com/geoip/legacy/install/country/

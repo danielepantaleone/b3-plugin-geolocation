@@ -22,8 +22,6 @@
 import re
 import struct
 
-PUREPYTHONGEOIP_VERSION = '1.0.0'
-
 def nreverse(sequence):
     """nreverse in Common Lisp. :)"""
     sequence.reverse()
@@ -136,8 +134,6 @@ class GeoIP(object):
         record_length = self.record_length
         databaseSegments = self.databaseSegments
         offset = 0
-        x0 = -1
-        x1 = -1
         for depth in nreverse(range(32)):
             fh.seek(offset * 2 * record_length, 0)
             x0 = fh.read(record_length)

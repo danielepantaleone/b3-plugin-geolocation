@@ -18,7 +18,7 @@
 
 class GeolocalizationError(Exception):
     """
-    Raised when we are not able to geolocalize a n IP address
+    Raised when we are not able to geolocalize an IP address
     """
     def __init__(self, message):
         Exception.__init__(self, message)
