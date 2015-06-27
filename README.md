@@ -12,6 +12,10 @@ retrieve geolocation data using multiple data sources:
 * [Free GeoIP](https://freegeoip.net/)
 * [MaxMind GeoIP](http://dev.maxmind.com/geoip/legacy/install/country/)
 
+******
+*NOTE: since B3 v1.10.1 beta this plugin has been included in the standard plugins set, thus all patches and updates will be performed in the official B3 repository.*
+******
+
 For plugin developers
 ---------------------
 To notify other plugins of client geolocation being completed, two events are being fired:
